@@ -32,7 +32,7 @@ project_root = Path(__file__).resolve().parents[3]
 cafile = (
     project_root
     / "src"
-    / "patient"
+    / "krankenhaus"
     / "config"
     / "resources"
     / "tls"

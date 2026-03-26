@@ -59,7 +59,7 @@
 #           uv publish --token <UV_PUBLISH_TOKEN>
 
 [project]
-name = "patient"
+name = "krankenhaus"
 version = "2026.4.1"
 description = "Beispiel mit FastAPI, PostgreSQL, Keycloak und uv"
 readme = "README.md"
@@ -187,7 +187,7 @@ dependencies = [
 ]
 
 [project.scripts]
-patient = "patient:main"
+krankenhaus = "krankenhaus:main"
 
 [build-system]
 requires = ["uv_build==0.10.11"]
@@ -197,7 +197,6 @@ build-backend = "uv_build"
 homepage = "https://www.h-ka.de"
 documentation = "https://readthedocs.org"
 repository = "https://github.com"
-changelog = "https://github.com/juergenzimmermann/patient/blob/master/CHANGELOG.md"
 
 # https://packaging.python.org/en/latest/specifications/dependency-groups
 # https://docs.astral.sh/uv/concepts/projects/dependencies/#dependency-groups
@@ -270,7 +269,7 @@ lint = [
 
 # https://coverage.readthedocs.io/en/latest/source.html
 [tool.coverage.run]
-include = ["src/patient/service/*"]
+include = ["src/krankenhaus/service/*"]
 
 # https://docs.pytest.org/en/stable/reference/customize.html
 [tool.pytest.ini_options]

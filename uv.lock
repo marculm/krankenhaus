@@ -1215,7 +1215,7 @@ wheels = [
 ]
 
 [[package]]
-name = "patient"
+name = "krankenhaus"
 version = "2026.4.1"
 source = { editable = "." }
 dependencies = [

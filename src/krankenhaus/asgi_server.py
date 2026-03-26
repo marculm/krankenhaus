@@ -18,7 +18,7 @@ __all__ = ["run"]
 def run() -> None:
     """Start der Anwendung mit uvicorn."""
     uvicorn.run(
-        "patient:app",
+        "krankenhaus:app",
         loop="asyncio",
         http="h11",
         interface="asgi3",

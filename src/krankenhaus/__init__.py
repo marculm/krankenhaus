@@ -1,3 +1,6 @@
+
+"""Modul Deklaration."""
+
 from krankenhaus.asgi_server import run
 from krankenhaus.fastapi_app import app
 
