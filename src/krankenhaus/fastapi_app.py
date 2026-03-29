@@ -1,9 +1,7 @@
 """MainApp."""
 
 from contextlib import asynccontextmanager
-from pathlib import Path
-from time import time
-from typing import TYPE_CHECKING, Any, Final
+from typing import TYPE_CHECKING, Final
 
 from fastapi import FastAPI
 from loguru import logger
