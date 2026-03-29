@@ -1,4 +1,5 @@
 """Entity-Klasse für das Krankenhaus."""
+
 from datetime import datetime
 from typing import Any
 
@@ -15,7 +16,7 @@ class Krankenhaus(Base):
 
     __tablename__ = "krankenhaus"
 
-    krankenhausid: Mapped[int] = mapped_column(
+    id: Mapped[int] = mapped_column(
         Identity(start=1000),
         primary_key=True,
     )
