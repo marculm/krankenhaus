@@ -113,3 +113,16 @@ class KrankenhausRepository:
 
         session.delete(krankenhaus_db)
         logger.debug("ok")
+
+    def email_exists(self, email: str, session: Session) -> bool:
+        """Prüfen, ob eine E-Mail-Adresse bereits existiert.
+
+        :param email: E-Mail-Adresse, die geprüft werden soll
+        :param session: SQLAlchemy Session
+        :return: True, wenn die E-Mail-Adresse bereits existiert, sonst False
+        """
+        statement: Final = select(func.count()).where(Krankenhaus.email == email)
+        anzahl: Final = session.scalar(statement)
+
+        logger.debug("anzahl: {}", anzahl)
+        return anzahl is not None and anzahl > 0
