@@ -99,3 +99,17 @@ class KrankenhausRepository:
 
         logger.debug("{}", krankenhaus)
         return krankenhaus_db
+
+    def delete_by_id(self, krankenhaus_id: int, session: Session) -> None:
+        """Ein Krankenhaus anhand der ID löschen.
+
+        :param krankenhaus_id: ID des zu löschenden Krankenhauses
+        :param session: SQLAlchemy Session
+        """
+        logger.debug("krankenhaus_id: {}", krankenhaus_id)
+
+        if (krankenhaus_db := self.find_by_id(krankenhaus_id, session)) is None:
+            return
+
+        session.delete(krankenhaus_db)
+        logger.debug("ok")
