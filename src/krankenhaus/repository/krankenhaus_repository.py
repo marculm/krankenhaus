@@ -70,3 +70,17 @@ class KrankenhausRepository:
         statement: Final = select(func.count()).select_from(Krankenhaus)
         count: Final = session.execute(statement).scalar()
         return count if count is not None else 0
+
+    # TODO: Johannes hier die restlichen Methoden zum Suchen ergänzen
+
+    def create(self, krankenhaus: Krankenhaus, session: Session) -> Krankenhaus:
+        """Ein neues Krankenhaus abspeichern.
+
+        :param krankenhaus: Krankenhaus-Objekt mit den Daten des neuen Krankenhauses
+        :param session: SQLAlchemy Session
+        :return: Das angelegte Krankenhaus mit ID
+        """
+        session.add(krankenhaus)
+        session.flush([krankenhaus])
+        logger.debug("krankenhaus_id: {}", krankenhaus.id)
+        return krankenhaus
