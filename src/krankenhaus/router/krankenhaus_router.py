@@ -14,14 +14,14 @@ from krankenhaus.router.constants import ETAG, IF_NONE_MATCH, IF_NONE_MATCH_MIN_
 from krankenhaus.router.dependencies import get_service
 from krankenhaus.router.page import Page
 from krankenhaus.security import Role, RolesRequired, User
-from krankenhaus.service import KrankenhausDTO, KrankenhausService, PatientDTO, PatientService
+from krankenhaus.service import KrankenhausDTO, KrankenhausService, KrankenhausDTO, KrankenhausService
 
 __all__: list[str] = ["krankenhaus_router"]
 
 
-patient_router: Final = APIRouter(tags=["Lesen"])
+krankenhaus_router: Final = APIRouter(tags=["Lesen"])
 
-@patient_router.get(  # noqa: E302
+@krankenhaus_router.get(  # noqa: E302
     path="/{krankenhaus_id}",
     dependencies=[Depends(RolesRequired([Role.ADMIN, Role.PATIENT]))],
 )
