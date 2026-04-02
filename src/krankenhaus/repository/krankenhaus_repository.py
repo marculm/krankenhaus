@@ -84,3 +84,18 @@ class KrankenhausRepository:
         session.flush([krankenhaus])
         logger.debug("krankenhaus_id: {}", krankenhaus.id)
         return krankenhaus
+
+    def update(self, krankenhaus: Krankenhaus, session: Session) -> Krankenhaus | None:
+        """Ein bestehendes Krankenhaus aktualisieren.
+
+        :param krankenhaus: Krankenhaus-Objekt mit den aktualisierten Daten
+        :param session: SQLAlchemy Session
+        :return: Das aktualisierte Krankenhaus
+        """
+        logger.debug("krankenhaus: {}", krankenhaus)
+
+        if (krankenhaus_db := self.find_by_id(krankenhaus.id, session)) is None:
+            return None
+
+        logger.debug("{}", krankenhaus)
+        return krankenhaus_db
