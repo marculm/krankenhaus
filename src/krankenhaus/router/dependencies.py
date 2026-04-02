@@ -12,7 +12,7 @@ from krankenhaus.service.krankenhaus_write_service import KrankenhausWriteServic
 
 
 def get_repository() -> KrankenhausRepository:
-    """Factory-Funktion für PatientRepository.
+    """Factory-Funktion für KrankenhausRepository.
 
     :return: Das Repository
     :rtype: KrankenhausRepository
@@ -23,7 +23,7 @@ def get_repository() -> KrankenhausRepository:
 def get_service(
     repo: Annotated[KrankenhausRepository, Depends(get_repository)],
 ) -> KrankenhausService:
-    """Factory-Funktion für PatientService."""
+    """Factory-Funktion für KrankenhausService."""
     return KrankenhausService(repo=repo)
 
 
