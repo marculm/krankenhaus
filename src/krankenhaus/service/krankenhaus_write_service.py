@@ -7,7 +7,12 @@ from sqlalchemy.orm import Session
 
 from krankenhaus.entity import Krankenhaus
 from krankenhaus.repository import KrankenhausRepository
-from krankenhaus.service import EmailExistsError, KrankenhausDTO
+from krankenhaus.service import (
+    EmailExistsError,
+    KrankenhausDTO,
+    NotFoundError,
+    VersionOutdatedError,
+)
 
 __all__ = ["KrankenhausWriteService"]
 
@@ -42,3 +47,41 @@ class KrankenhausWriteService:
 
         logger.debug("krankenhaus_dto: {}", krankenhaus_dto)
         return krankenhaus_dto
+
+    def update(
+            self, krankenhaus: Krankenhaus, krankenhaus_id: int, version: int
+        ) -> KrankenhausDTO:
+        """Ein bestehendes Krankenhaus aktualisieren.
+
+        :param krankenhaus_id: ID des zu aktualisierenden Krankenhauses
+        :param krankenhaus: Das Krankenhaus mit den neuen Daten
+        :param version: Die aktuelle Versionsnummer des Krankenhauses
+        :return: Das aktualisierte Krankenhaus
+        """
+        logger.debug("krankenhaus_id={}, version={}", krankenhaus_id, version)
+
+        with Session() as session:
+            if (
+                krankenhaus_db := self.repo.find_by_id(krankenhaus_id, session)
+            ) is None:
+                raise NotFoundError(krankenhaus.id)
+            if krankenhaus_db.version > version:
+                raise VersionOutdatedError(version)
+
+            email: Final = krankenhaus.email
+            if (
+                email != krankenhaus_db.email and
+                self.repo.email_exists_for_other_id(email, krankenhaus_id, session)
+            ):
+                raise EmailExistsError(email)
+
+            krankenhaus_db.set(krankenhaus)
+            if (krankenhaus_db := self.repo.update(krankenhaus_db, session)) is None:
+                raise NotFoundError(krankenhaus_id)
+
+            krankenhaus_dto: Final = KrankenhausDTO(krankenhaus_db)
+            logger.debug("krankenhaus_dto: {}", krankenhaus_dto)
+            session.commit()
+
+            krankenhaus_dto.version += 1
+            return krankenhaus_dto
