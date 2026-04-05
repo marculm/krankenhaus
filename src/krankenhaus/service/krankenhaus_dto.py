@@ -2,12 +2,13 @@
 
 from dataclasses import dataclass
 
-from krankenhaus.entity.krankenhaus import Krankenhaus
+from krankenhaus.entity import Krankenhaus
+from krankenhaus.service import AdresseDTO
 
 __all__: list[str] = ["KrankenhausDTO"]
 
 
-@dataclass(e1=False, slots=True, low_only=True)  # ty:ignore[no-matching-overload]
+@dataclass(eq=False, slots=True, kw_only=True)
 class KrankenhausDTO:
     """DTO-Klasse für Krankenhaus."""
 
@@ -19,17 +20,16 @@ class KrankenhausDTO:
     email: str
     adresse: AdresseDTO
 
+    def __init__(self, krankenhaus: Krankenhaus):
+        """Initialisierung von KrankenhausDTO durch ein Entity-Objekt von Krankenhaus.
 
-def __init__(self, krankenhaus: Krankenhaus):  # noqa: N807
-    """Initialisierung von KrankenhausDTO durch ein Entity-Objekt von Krankenhaus.
-
-    :param krankenhaus: Krankenhaus-Objekt mit den Decorators zu SQLAlchemy
-    """
-    krankenhaus_id: int | None = krankenhaus.id
-    self.id: int = krankenhaus_id if krankenhaus_id is not None else -1
-    self.version: int = krankenhaus.version
-    self.name: str = krankenhaus.name
-    self.mitarbeiteranzahl: int = krankenhaus.mitarbeiteranzahl
-    self.bettenanzahl: int = krankenhaus.bettenanzahl
-    self.email: str = krankenhaus.email
-    self.adresse= AdresseDTO(krankenhaus.adresse)
+        :param krankenhaus: Krankenhaus-Objekt mit den Decorators zu SQLAlchemy
+        """
+        krankenhaus_id: int | None = krankenhaus.id
+        self.id: int = krankenhaus_id if krankenhaus_id is not None else -1
+        self.version: int = krankenhaus.version
+        self.name: str = krankenhaus.name
+        self.mitarbeiteranzahl: int = krankenhaus.mitarbeiteranzahl
+        self.bettenanzahl: int = krankenhaus.bettenanzahl
+        self.email: str = krankenhaus.email
+        self.adresse = AdresseDTO(krankenhaus.adresse)
