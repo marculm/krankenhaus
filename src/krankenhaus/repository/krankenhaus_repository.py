@@ -126,3 +126,21 @@ class KrankenhausRepository:
 
         logger.debug("anzahl: {}", anzahl)
         return anzahl is not None and anzahl > 0
+
+    def email_exists_for_other_id(
+            self, email: str, krankenhaus_id: int, session: Session
+        ) -> bool:
+        """Prüfen, ob eine E-Mail-Adresse bereits bei einer anderen ID existiert.
+
+        :param email: E-Mail-Adresse, die geprüft werden soll
+        :param krankenhaus_id: ID des Krankenhauses, das ignoriert werden soll
+        :param session: SQLAlchemy Session
+        :return: True, wenn die E-Mail-Adresse bereits existiert, sonst False
+        """
+        logger.debug("email: {}", email)
+
+        statement: Final = select(Krankenhaus.id).where(Krankenhaus.email == email)
+        id_db: Final = session.scalar(statement)
+
+        logger.debug("id_db: {}", id_db)
+        return id_db is not None and id_db != krankenhaus_id
