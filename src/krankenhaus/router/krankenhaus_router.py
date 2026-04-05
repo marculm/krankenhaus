@@ -6,29 +6,35 @@ from typing import Annotated, Any, Final
 from fastapi import APIRouter, Depends, Request, Response, status
 from fastapi.responses import JSONResponse
 
-from krankenhaus.repository.slice import Slice
-from krankenhaus.router.page import Page
-from rich.json import JSON
-
 from krankenhaus.repository import Pageable
+from krankenhaus.repository.slice import Slice
 from krankenhaus.router.constants import ETAG, IF_NONE_MATCH, IF_NONE_MATCH_MIN_LEN
 from krankenhaus.router.dependencies import get_service
+from krankenhaus.router.page import Page
 from krankenhaus.security import Role, RolesRequired
-from krankenhaus.service import KrankenhausDTO, KrankenhausService
+from krankenhaus.service.krankenhaus_dto import KrankenhausDTO
+from krankenhaus.service.krankenhaus_service import KrankenhausService
 
 __all__: list[str] = ["krankenhaus_router"]
 
 
 krankenhaus_router: Final = APIRouter(tags=["Lesen"])
 
-@krankenhaus_router.get(  # noqa: E302
+
+@krankenhaus_router.get("/helloworld")
+def helloworld() -> dict[str, str]:
+    """Router Test."""
+    return {"msg": "Hello World!"}
+
+
+@krankenhaus_router.get(
     path="/{krankenhaus_id}",
     dependencies=[Depends(RolesRequired([Role.ADMIN, Role.PATIENT]))],
 )
 def get_by_id(
     krankenhaus_id: int,
     request: Request,
-    service: Annotated[KrankenhausService, Depends(get_service)],
+    service: Annotated[Any, Depends(get_service)],
 ) -> Response:
     """Liest ein Krankenhaus anhand der ID aus der Datenbank.
 
@@ -69,7 +75,7 @@ def get_by_id(
 )
 def get(
     request: Request,
-    service: Annotated[KrankenhausService, Depends(get_service)],
+    service: Annotated[Any, Depends(get_service)],
 ) -> JSONResponse:
     """Suche mit Query-Parameter.
 
@@ -92,8 +98,7 @@ def get(
     if "size" in query_params:
         del suchparameter["size"]
 
-    krankenhaus_slice: Final = service.find(
-        suchparameter=suchparameter, pageable=pageable)
+    krankenhaus_slice: Final = service.find(suchparameter=suchparameter, pageable=pageable)
 
     result: Final = _krankenhaus_slice_to_page(krankenhaus_slice, pageable)
     return JSONResponse(content=result)

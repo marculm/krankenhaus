@@ -7,6 +7,7 @@ from fastapi import FastAPI
 from loguru import logger
 
 from krankenhaus.banner import banner
+from krankenhaus.router.krankenhaus_router import krankenhaus_router
 
 if TYPE_CHECKING:
     from collections.abc import AsyncGenerator
@@ -28,3 +29,8 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None]:  # noqa: RUF029
 
 
 app: Final = FastAPI(lifespan=lifespan)
+
+# --------------------------------------------------------------------------------------
+# R E S T
+# --------------------------------------------------------------------------------------
+app.include_router(krankenhaus_router, prefix="/rest")
