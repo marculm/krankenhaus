@@ -85,3 +85,17 @@ class KrankenhausWriteService:
 
             krankenhaus_dto.version += 1
             return krankenhaus_dto
+
+    def delete_by_id(self, krankenhaus_id: int) -> None:
+        """Ein Krankenhaus anhand der ID löschen.
+
+        :param krankenhaus_id: ID des zu löschenden Krankenhauses
+        """
+        logger.debug("krankenhaus_id: {}", krankenhaus_id)
+
+        with Session() as session:
+            if self.repo.find_by_id(krankenhaus_id, session) is None:
+                raise NotFoundError(krankenhaus_id)
+
+            self.repo.delete_by_id(krankenhaus_id, session)
+            session.commit()
