@@ -63,6 +63,10 @@ def get_by_id(
     )
 
 
+@krankenhaus_router.get(
+    "",
+    dependencies=[Depends(RolesRequired(Role.ADMIN))],
+)
 def get(
     request: Request,
     service: Annotated[KrankenhausService, Depends(get_service)],
@@ -94,8 +98,29 @@ def get(
     result: Final = _krankenhaus_slice_to_page(krankenhaus_slice, pageable)
     return JSONResponse(content=result)
 
-    def _krankenhaus_slice_to_page(
-    patient_slice: Slice[KrankenhausDTODTO],
+
+@krankenhaus_router.get(
+    "/namen/{teil}",
+    dependencies=[Depends(RolesRequired(Role.ADMIN))],
+)
+def get_namen(
+    teil: str,
+    service: Annotated[KrankenhausService, Depends(get_service)],
+) -> JSONResponse:
+    """Suche Namen zum gegebenen Teilstring.
+
+    :param teil: Teilstring der gefundenen Namen
+    :param service: Injizierter Service für Geschäftslogik
+    :return: Response mit Statuscode 200 und gefundenen Namen im Body
+    :rtype: Response
+    :raises NotFoundError: Falls keine Namen gefunden wurden
+    """
+    namen: Final = service.find_namen(teil=teil)
+    return JSONResponse(content=namen)
+
+
+def _krankenhaus_slice_to_page(
+    krankenhaus_slice: Slice[KrankenhausDTO],
     pageable: Pageable,
 ) -> dict[str, Any]:
     krankenhaus_dict: Final = tuple(

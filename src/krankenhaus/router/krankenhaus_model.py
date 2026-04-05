@@ -1,13 +1,14 @@
 """Pydantic Models for Krankenhaus Data."""
+from sqlalchemy.dialects.postgresql import Any
+from ty_extensions import Unknown
 import krankenhaus
 
 from typing import Annotated, Final
 
-from krankenhaus.entity import Krankenhaus,
-from krankenhaus.router.krankenhaus_update_model import PatientUpdateModel
-from krankenhaus.router.rechnung_model import RechnungModel
+from krankenhaus.entity import Krankenhaus, Adresse, Fachbereich
+from krankenhaus.router.krankenhaus_update_model import KrankennhausUpdateModelUpdateModel
 
-__all__: list[Final[str]] = ["KrankenhausModel"]
+__all__: list[str] = ["KrankenhausModel"]
 
 class KrankenhausModel(KrankenhausUpdateModel):
     """Pydantic Model für Krankenhaus Daten."""
@@ -30,12 +31,13 @@ class KrankenhausModel(KrankenhausUpdateModel):
         :rtype: Krankenhaus
         """
 
-     krankenhaus_dict("self={}", self)
-     krankenhaus_dict(str, Any) = self.to_dict()
+        krankenhaus_dict: dict[str, Any] = self.to_dict()
+        krankenhaus_dict(str, Any) = self.to_dict()
 
-     krankenhaus: Final = Krankenhaus(**krankenhaus_dict)
-        krankenhaus.adresse = self.adresse.to_adresse()
-        krankenhaus.fachbereiche = [
-            fachbereich_model.to_fachbereich() for fachbereich_model in self.fachbereiche
+        krankenhaus: Final = Krankenhaus(**krankenhaus_dict)
+        krankenhaus.adresse: Adresse = self.adresse.to_adresse()
+        krankenhaus.fachbereich: list[Fachbereich] = [
+            fachbereich_model.to_fachbereich() for
+            fachbereich_model in self.fachbereich
         ]
         return krankenhaus
