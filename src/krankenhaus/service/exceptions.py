@@ -2,7 +2,7 @@
 
 from collections.abc import Mapping
 
-__all__ = ["EmailExistsError"]
+__all__ = ["EmailExistsError", "NotFoundError", "VersionOutdatedError"]
 
 
 class EmailExistsError(Exception):
@@ -36,12 +36,13 @@ class NotFoundError(Exception):
 
 
 class VersionOutdatedError(Exception):
-    """Exception, falls die Versionsnummer beim Aktualisieren veraltet ist."""
+    """Exception, falls die Version eines Krankenhauses veraltet ist."""
 
     def __init__(self, version: int) -> None:
-        """Initialisierung von VersionOutdatedError mit veralteter Versionsnummer.
+        """Initialisierung von VersionOutdatedError.
 
-        :param version: Veraltete Versionsnummer
+        :param krankenhaus_id: ID des Krankenhauses mit veralteter Version
+        :param version: Veraltete Version des Krankenhauses
         """
         super().__init__(f"Veraltete Version: {version}")
         self.version = version
