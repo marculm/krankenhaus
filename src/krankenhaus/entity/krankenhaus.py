@@ -1,7 +1,6 @@
 """Entity-Klasse für das Krankenhaus."""
-
 from datetime import datetime
-from typing import Any
+from typing import Any, Self
 
 from sqlalchemy import Identity, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -73,5 +72,14 @@ class Krankenhaus(Base):
             f"Krankenhaus(id={self.id!r}, name={self.name!r}, "
             + f"mitarbeiteranzahl={self.mitarbeiteranzahl!r}, "
             + f"bettenanzahl={self.bettenanzahl!r}, email={self.email!r})"
-
         )
+
+    def set(self, patient: Self) -> None:
+        """Setzen der Attribute, anhand eines anderen Krankenhaus-Objekts.
+
+        param patient: Krankenhaus-Objekt mit den neuen Daten
+        """
+        self.name = patient.name
+        self.mitarbeiteranzahl = patient.mitarbeiteranzahl
+        self.bettenanzahl = patient.bettenanzahl
+        self.email = patient.email
