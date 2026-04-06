@@ -5,9 +5,10 @@ import signal
 from typing import Any, Final
 
 from fastapi import APIRouter, Depends
+from loguru import logger
+
 from krankenhaus.security.role import Role
 from krankenhaus.security.roles_required import RolesRequired
-from loguru import logger
 
 __all__ = ["router"]
 

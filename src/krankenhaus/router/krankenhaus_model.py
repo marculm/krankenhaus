@@ -1,12 +1,10 @@
 """Pydantic Models for Krankenhaus Data."""
-from sqlalchemy.dialects.postgresql import Any
-from ty_extensions import Unknown
-import krankenhaus
+
 
 from typing import Annotated, Final
-
+from krankenhaus.entity import Krankenhaus
 from krankenhaus.entity import Krankenhaus, Adresse, Fachbereich
-from krankenhaus.router.krankenhaus_update_model import KrankennhausUpdateModelUpdateModel
+from krankenhaus.router.krankenhaus_update_model import KrankennhausUpdateModel
 
 __all__: list[str] = ["KrankenhausModel"]
 
