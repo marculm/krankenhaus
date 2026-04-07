@@ -47,7 +47,7 @@ def get_by_id(
     :return: Das Krankenhaus-Objekt oder eine Fehlermeldung
     :rtype: Any
     """
-    krankenhaus: Final= service.get_by_id(krankenhaus_id=krankenhaus_id)  # noqa: E225
+    krankenhaus: Final = service.find_by_id(krankenhaus_id=krankenhaus_id)
 
     if_none_match: Final = request.headers.get(IF_NONE_MATCH)
     if (
@@ -98,7 +98,10 @@ def get(
     if "size" in query_params:
         del suchparameter["size"]
 
-    krankenhaus_slice: Final = service.find(suchparameter=suchparameter, pageable=pageable)
+    krankenhaus_slice: Final = service.find(
+        suchparameter=suchparameter,
+        pageable=pageable,
+    )
 
     result: Final = _krankenhaus_slice_to_page(krankenhaus_slice, pageable)
     return JSONResponse(content=result)

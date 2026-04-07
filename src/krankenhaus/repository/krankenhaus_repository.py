@@ -1,5 +1,6 @@
 """Repository für das Projekt Krankenhaus."""
 
+from collections.abc import Mapping, Sequence
 from typing import Final
 
 from loguru import logger
@@ -65,6 +66,70 @@ class KrankenhausRepository:
             content=tuple(krankenhaeuser), total_elements=anzahl
         )
         return krankenhaus_slice
+
+    def find(
+        self,
+        suchparameter: Mapping[str, str],
+        pageable: Pageable,
+        session: Session,
+    ) -> Slice[Krankenhaus]:
+        """Krankenhäuser anhand von Suchparametern suchen.
+
+        :param suchparameter: Suchparameter aus der Query
+        :param pageable: Pageable-Objekt mit Seitennummer und Anzahl pro Seite
+        :param session: SQLAlchemy Session
+        :return: Liste der gefundenen Krankenhäuser
+        """
+        logger.debug("suchparameter: {}", suchparameter)
+
+        conditions = []
+
+        if name := suchparameter.get("name"):
+            conditions.append(Krankenhaus.name.ilike(f"%{name}%"))
+        if email := suchparameter.get("email"):
+            conditions.append(Krankenhaus.email.ilike(f"%{email}%"))
+        if (mitarbeiteranzahl := suchparameter.get("mitarbeiteranzahl")) is not None:
+            conditions.append(Krankenhaus.mitarbeiteranzahl == int(mitarbeiteranzahl))
+        if (bettenanzahl := suchparameter.get("bettenanzahl")) is not None:
+            conditions.append(Krankenhaus.bettenanzahl == int(bettenanzahl))
+
+        statement = select(Krankenhaus).options(joinedload(Krankenhaus.adresse))
+        count_statement = select(func.count()).select_from(Krankenhaus)
+        if len(conditions) != 0:
+            statement = statement.where(*conditions)
+            count_statement = count_statement.where(*conditions)
+
+        if pageable.size != 0:
+            statement = statement.offset(pageable.number * pageable.size).limit(
+                pageable.size,
+            )
+
+        krankenhaeuser: Final = session.scalars(statement).all()
+        anzahl: Final = session.scalar(count_statement)
+        krankenhaus_slice: Final = Slice(
+            content=tuple(krankenhaeuser),
+            total_elements=anzahl if anzahl is not None else 0,
+        )
+        logger.debug("krankenhaus_slice: {}", krankenhaus_slice)
+        return krankenhaus_slice
+
+    def find_namen(self, teil: str, session: Session) -> Sequence[str]:
+        """Krankenhausnamen zu einem Teilstring suchen.
+
+        :param teil: Teilstring der gesuchten Namen
+        :param session: SQLAlchemy Session
+        :return: Gefundene Krankenhausnamen
+        """
+        logger.debug("teil: {}", teil)
+
+        statement: Final = (
+            select(Krankenhaus.name)
+            .where(Krankenhaus.name.ilike(f"%{teil}%"))
+            .order_by(Krankenhaus.name)
+        )
+        namen: Final = tuple(session.scalars(statement).all())
+        logger.debug("namen: {}", namen)
+        return namen
 
     def _count_all_rows(self, session: Session) -> int:
         statement: Final = select(func.count()).select_from(Krankenhaus)
