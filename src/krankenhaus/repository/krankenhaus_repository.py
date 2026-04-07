@@ -70,3 +70,77 @@ class KrankenhausRepository:
         statement: Final = select(func.count()).select_from(Krankenhaus)
         count: Final = session.execute(statement).scalar()
         return count if count is not None else 0
+
+    # TODO: Johannes hier die restlichen Methoden zum Suchen ergänzen
+
+    def create(self, krankenhaus: Krankenhaus, session: Session) -> Krankenhaus:
+        """Ein neues Krankenhaus abspeichern.
+
+        :param krankenhaus: Krankenhaus-Objekt mit den Daten des neuen Krankenhauses
+        :param session: SQLAlchemy Session
+        :return: Das angelegte Krankenhaus mit ID
+        """
+        session.add(krankenhaus)
+        session.flush([krankenhaus])
+        logger.debug("krankenhaus_id: {}", krankenhaus.id)
+        return krankenhaus
+
+    def update(self, krankenhaus: Krankenhaus, session: Session) -> Krankenhaus | None:
+        """Ein bestehendes Krankenhaus aktualisieren.
+
+        :param krankenhaus: Krankenhaus-Objekt mit den aktualisierten Daten
+        :param session: SQLAlchemy Session
+        :return: Das aktualisierte Krankenhaus
+        """
+        logger.debug("krankenhaus: {}", krankenhaus)
+
+        if (krankenhaus_db := self.find_by_id(krankenhaus.id, session)) is None:
+            return None
+
+        logger.debug("{}", krankenhaus)
+        return krankenhaus_db
+
+    def delete_by_id(self, krankenhaus_id: int, session: Session) -> None:
+        """Ein Krankenhaus anhand der ID löschen.
+
+        :param krankenhaus_id: ID des zu löschenden Krankenhauses
+        :param session: SQLAlchemy Session
+        """
+        logger.debug("krankenhaus_id: {}", krankenhaus_id)
+
+        if (krankenhaus_db := self.find_by_id(krankenhaus_id, session)) is None:
+            return
+
+        session.delete(krankenhaus_db)
+        logger.debug("ok")
+
+    def email_exists(self, email: str, session: Session) -> bool:
+        """Prüfen, ob eine E-Mail-Adresse bereits existiert.
+
+        :param email: E-Mail-Adresse, die geprüft werden soll
+        :param session: SQLAlchemy Session
+        :return: True, wenn die E-Mail-Adresse bereits existiert, sonst False
+        """
+        statement: Final = select(func.count()).where(Krankenhaus.email == email)
+        anzahl: Final = session.scalar(statement)
+
+        logger.debug("anzahl: {}", anzahl)
+        return anzahl is not None and anzahl > 0
+
+    def email_exists_for_other_id(
+            self, email: str, krankenhaus_id: int, session: Session
+        ) -> bool:
+        """Prüfen, ob eine E-Mail-Adresse bereits bei einer anderen ID existiert.
+
+        :param email: E-Mail-Adresse, die geprüft werden soll
+        :param krankenhaus_id: ID des Krankenhauses, das ignoriert werden soll
+        :param session: SQLAlchemy Session
+        :return: True, wenn die E-Mail-Adresse bereits existiert, sonst False
+        """
+        logger.debug("email: {}", email)
+
+        statement: Final = select(Krankenhaus.id).where(Krankenhaus.email == email)
+        id_db: Final = session.scalar(statement)
+
+        logger.debug("id_db: {}", id_db)
+        return id_db is not None and id_db != krankenhaus_id

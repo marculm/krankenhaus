@@ -1,6 +1,13 @@
-"""Service-Modul für Krankenhaus."""
+"""Modul für den Geschäftslogik im Projekt Krankenhaus."""
 
-from krankenhaus.service.krankenhaus_dto import KrankenhausDTO
+from .adresse_dto import AdresseDTO
+from .exceptions import EmailExistsError, NotFoundError, VersionOutdatedError
+from .krankenhaus_dto import KrankenhausDTO
 
 __all__: list[str] = [
+    "AdresseDTO",
+    "EmailExistsError",
+    "KrankenhausDTO",
+    "NotFoundError",
+    "VersionOutdatedError"
 ]
