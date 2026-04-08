@@ -17,12 +17,16 @@ class Fachbereich(Base):
     )
 
     name: Mapped[str]
+    """Der Name des Fachbereichs."""
 
     beschreibung: Mapped[str]
+    """Die Beschreibung des Fachbereichs."""
 
     leitung: Mapped[str]
+    """Die Leitung des Fachbereichs."""
 
     anzahlaerzte: Mapped[int]
+    """Die Anzahl der Ärzte im Fachbereich."""
 
     krankenhausid: Mapped[int] = mapped_column(
         ForeignKey(column="krankenhaus.krankenhausid")

@@ -1,4 +1,4 @@
-"""PatientGetRouter."""
+"""KrankenhausGetRouter."""
 
 from typing import Final
 
