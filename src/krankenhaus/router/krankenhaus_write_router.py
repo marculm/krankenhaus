@@ -105,3 +105,23 @@ def put(
         status_code=status.HTTP_204_NO_CONTENT,
         headers={"ETag": f'"{krankenhaus_modified.version}"'},
         )
+
+
+@krankenhaus_write_router.delete("/{id}")
+def delete_by_id(
+    krankenhaus_id: int,
+    service: Annotated[KrankenhausWriteService, Depends(get_write_service)]
+) -> Response:
+    """Löscht ein Krankenhaus anhand der ID.
+
+    :param krankenhaus_id: Die ID des zu löschenden Krankenhauses
+    :type krankenhaus_id: int
+    :param request: Die HTTP-Anfrage
+    :type request: Request
+    :param service: Der Service für die Geschäftslogik
+    :type service: KrankenhausWriteService
+    :rtype: Response
+    """
+    logger.debug("krankenhaus_id={}", krankenhaus_id)
+    service.delete_by_id(krankenhaus_id=krankenhaus_id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
