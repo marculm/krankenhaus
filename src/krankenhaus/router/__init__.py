@@ -14,6 +14,9 @@ from krankenhaus.router.krankenhaus_router import (
     krankenhaus_router,
 )
 from krankenhaus.router.krankenhaus_update_model import KrankenhausUpdateModel
+from krankenhaus.router.krankenhaus_write_router import (
+    krankenhaus_write_router,
+)
 
 # from krankenhaus.router.krankenhaus_write_router import (
 #     delete_by_id,
@@ -35,7 +38,7 @@ __all__: Sequence[str] = [
     "get_namen",
     "health_router",
     "krankenhaus_router",
-    # "krankenhaus_write_router",
+    "krankenhaus_write_router",
     "liveness",
     # "post",
     # "put",

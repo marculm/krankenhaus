@@ -3,11 +3,15 @@
 from .adresse_dto import AdresseDTO
 from .exceptions import EmailExistsError, NotFoundError, VersionOutdatedError
 from .krankenhaus_dto import KrankenhausDTO
+from .krankenhaus_service import KrankenhausService
+from .krankenhaus_write_service import KrankenhausWriteService
 
 __all__: list[str] = [
     "AdresseDTO",
     "EmailExistsError",
     "KrankenhausDTO",
+    "KrankenhausService",
+    "KrankenhausWriteService",
     "NotFoundError",
     "VersionOutdatedError"
 ]
