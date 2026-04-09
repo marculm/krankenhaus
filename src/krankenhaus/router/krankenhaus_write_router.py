@@ -5,7 +5,9 @@ from typing import Annotated, Final
 from fastapi import APIRouter, Depends, Request, Response, status
 from loguru import logger
 
-from krankenhaus.router import KrankenhausModel
+from krankenhaus.problem_details import create_problem_details
+from krankenhaus.router import KrankenhausModel, KrankenhausUpdateModel
+from krankenhaus.router.constants import IF_MATCH, IF_MATCH_MIN_LEN
 from krankenhaus.router.dependencies import get_write_service
 from krankenhaus.service import KrankenhausWriteService
 
@@ -29,7 +31,6 @@ def post(
     :type request: Request
     :param service: Der Service für die Geschäftslogik
     :type service: KrankenhausWriteService
-    :return: Eine leere Antwort mit Statuscode 201 Created
     :rtype: Response
     """
     logger.debug("krankenhaus_model={}", krankenhaus_model)
@@ -41,3 +42,66 @@ def post(
         status_code=status.HTTP_201_CREATED,
         headers={"Location": f"{request.url}/{krankenhaus_dto.id}"},
     )
+
+
+@krankenhaus_write_router.put("/{id}")
+def put(
+    krankenhaus_id: int,
+    krankenhaus_update_model: KrankenhausUpdateModel,
+    request: Request,
+    service: Annotated[KrankenhausWriteService, Depends(get_write_service)]
+) -> Response:
+    """Aktualisiert ein bestehendes Krankenhaus.
+
+    :param krankenhaus_id: Die ID des zu aktualisierenden Krankenhauses
+    :type krankenhaus_id: int
+    :param krankenhaus_update_model: Das Krankenhaus mit den aktualisierten Daten
+    :type krankenhaus_update_model: KrankenhausUpdateModel
+    :param request: Die HTTP-Anfrage
+    :type request: Request
+    :param service: Der Service für die Geschäftslogik
+    :type service: KrankenhausWriteService
+    :rtype: Response
+    """
+    if_match_value = request.headers.get("If-Match")
+    logger.debug(
+        "krankenhaus_id={}, krankenhaus_update_model={}, if_match={}",
+        krankenhaus_id,
+        krankenhaus_update_model,
+        if_match_value
+    )
+
+    if if_match_value is None:
+        return create_problem_details(
+            status_code=status.HTTP_428_PRECONDITION_REQUIRED,
+        )
+
+    if (
+        len(if_match_value) < IF_MATCH_MIN_LEN
+        or not if_match_value.startswith('"')
+        or not if_match_value.endswith('"')
+    ):
+        return create_problem_details(
+            status_code=status.HTTP_412_PRECONDITION_FAILED,
+        )
+
+    version: Final = if_match_value[1:-1]
+    try:
+        version_int: Final = int(version)
+    except ValueError:
+        return Response(
+            status_code=status.HTTP_412_PRECONDITION_FAILED,
+        )
+
+    krankenhaus: Final = krankenhaus_update_model.to_krankenhaus()
+    krankenhaus_modified: Final = service.update(
+        krankenhaus_id=krankenhaus_id,
+        krankenhaus=krankenhaus,
+        version=version_int
+    )
+    logger.debug("krankenhaus_modified={}", krankenhaus_modified)
+
+    return Response(
+        status_code=status.HTTP_204_NO_CONTENT,
+        headers={"ETag": f'"{krankenhaus_modified.version}"'},
+        )
