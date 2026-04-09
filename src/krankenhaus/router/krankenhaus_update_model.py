@@ -2,7 +2,12 @@
 
 from typing import Any
 
+from loguru import logger
 from pydantic import BaseModel, ConfigDict, EmailStr
+
+from krankenhaus.entity import Krankenhaus
+
+__all__: list[str] = ["KrankenhausUpdateModel"]
 
 
 class KrankenhausUpdateModel(BaseModel):
@@ -45,3 +50,16 @@ class KrankenhausUpdateModel(BaseModel):
         krankenhaus_dict["aktualisiert"] = None
 
         return krankenhaus_dict
+
+    def to_krankenhaus(self) -> Krankenhaus:
+        """Konvertiert das Pydantic Model in ein Krankenhaus Objekt.
+
+        :return: Krankenhaus-Objekt für SQLAlchemy
+        :rtype: Krankenhaus
+        """
+        logger.debug("self={}", self)
+        krankenhaus_dict = self.to_dict()
+
+        krankenhaus = Krankenhaus(**krankenhaus_dict)
+        logger.debug("krankenhaus={}", krankenhaus)
+        return krankenhaus
