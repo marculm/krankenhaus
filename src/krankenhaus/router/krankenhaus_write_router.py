@@ -7,7 +7,7 @@ from loguru import logger
 
 from krankenhaus.problem_details import create_problem_details
 from krankenhaus.router import KrankenhausModel, KrankenhausUpdateModel
-from krankenhaus.router.constants import IF_MATCH, IF_MATCH_MIN_LEN
+from krankenhaus.router.constants import IF_MATCH_MIN_LEN
 from krankenhaus.router.dependencies import get_write_service
 from krankenhaus.service import KrankenhausWriteService
 
