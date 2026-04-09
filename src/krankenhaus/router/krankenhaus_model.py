@@ -1,15 +1,15 @@
-"""Pydantic Models for Krankenhaus Data."""
+"""Pydantic Models für das Krankenhaus."""
 
-
-from typing import Annotated, Final
+from typing import Annotated, Final, Any
 from krankenhaus.entity import Krankenhaus
 from krankenhaus.entity import Krankenhaus, Adresse, Fachbereich
-from krankenhaus.router.krankenhaus_update_model import KrankennhausUpdateModel
+from krankenhaus.router import KrankenhausUpdateModel
 
 __all__: list[str] = ["KrankenhausModel"]
 
+
 class KrankenhausModel(KrankenhausUpdateModel):
-    """Pydantic Model für Krankenhaus Daten."""
+    """Pydantic Model für das Krankenhaus."""
 
     name: str
     """Der zugehörige Name des Krankenhauses."""
