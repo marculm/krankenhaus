@@ -34,7 +34,7 @@ def helloworld() -> dict[str, str]:
 def get_by_id(
     krankenhaus_id: int,
     request: Request,
-    service: Annotated[Any, Depends(get_service)],
+    service: Annotated[KrankenhausService, Depends(get_service)],
 ) -> Response:
     """Liest ein Krankenhaus anhand der ID aus der Datenbank.
 
