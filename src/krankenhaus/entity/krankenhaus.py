@@ -28,7 +28,7 @@ class Krankenhaus(Base):
 
     email: Mapped[str] = mapped_column(unique=True)
 
-    fachbereiche: Mapped[list[Fachbereich | None]] = relationship(
+    fachbereiche: Mapped[list[Fachbereich]] = relationship(
         back_populates="krankenhaus",
         cascade="save-update, delete",
     )

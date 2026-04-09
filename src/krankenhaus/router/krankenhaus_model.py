@@ -1,9 +1,8 @@
 """Pydantic Models für das Krankenhaus."""
+from typing import Final
 
-from typing import Annotated, Final, Any
 from krankenhaus.entity import Krankenhaus
-from krankenhaus.entity import Krankenhaus, Adresse, Fachbereich
-from krankenhaus.router import KrankenhausUpdateModel
+from krankenhaus.router import AdresseModel, FachbereichModel, KrankenhausUpdateModel
 
 __all__: list[str] = ["KrankenhausModel"]
 
@@ -11,31 +10,24 @@ __all__: list[str] = ["KrankenhausModel"]
 class KrankenhausModel(KrankenhausUpdateModel):
     """Pydantic Model für das Krankenhaus."""
 
-    name: str
+    adresse: AdresseModel
     """Der zugehörige Name des Krankenhauses."""
 
-    mitarbeiteranzahl: int
-    """Die Anzahl der Mitarbeiter im Krankenhaus."""
-
-    bettenanzahl: int
-
-    email: str
-    """Die Anzahl der Betten im Krankenhaus."""
+    fachbereiche: list[FachbereichModel]
+    """Die zugehörigen Fachbereiche des Krankenhauses."""
 
     def to_krankenhaus(self) -> Krankenhaus:
-        """Konvertiert das Pydantic Model in ein Krankenhaus Entity
+        """Konvertiert das Pydantic Model in ein Krankenhaus Entity.
 
         :return: Krankenhaus-Objekt für SQLAlchemy
         :rtype: Krankenhaus
         """
-
-        krankenhaus_dict: dict[str, Any] = self.to_dict()
-        krankenhaus_dict(str, Any) = self.to_dict()
+        krankenhaus_dict = self.to_dict()
 
         krankenhaus: Final = Krankenhaus(**krankenhaus_dict)
-        krankenhaus.adresse: Adresse = self.adresse.to_adresse()
-        krankenhaus.fachbereich: list[Fachbereich] = [
+        krankenhaus.adresse = self.adresse.to_adresse()
+        krankenhaus.fachbereiche = [
             fachbereich_model.to_fachbereich() for
-            fachbereich_model in self.fachbereich
+            fachbereich_model in self.fachbereiche
         ]
         return krankenhaus
