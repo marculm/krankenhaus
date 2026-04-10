@@ -28,8 +28,8 @@ class Fachbereich(Base):
     anzahlaerzte: Mapped[int]
     """Die Anzahl der Ärzte im Fachbereich."""
 
-    krankenhausid: Mapped[int] = mapped_column(
-        ForeignKey(column="krankenhaus.krankenhausid")
+    krankenhaus_id: Mapped[int] = mapped_column(
+        ForeignKey(column="krankenhaus.krankenhaus_id")
     )
 
     krankenhaus: Mapped[Krankenhaus] = relationship(  # noqa: F821 # ty: ignore[unresolved-reference] # pyright: ignore[reportUndefinedVariable ]
