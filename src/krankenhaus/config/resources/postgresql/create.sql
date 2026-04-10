@@ -22,3 +22,18 @@ CREATE TABLE IF NOT EXISTS adresse (
     ort             TEXT NOT NULL,
     krankenhaus_id  INTEGER NOT NULL REFERENCES krankenhaus ON DELETE CASCADE
 )
+
+CREATE INDEX IF NOT EXISTS adresse_plz_idx ON adresse(plz);
+CREATE INDEX IF NOT EXISTS adresse_krankenhaus_id_idx ON adresse(krankenhaus_id);
+
+CREATE TABLE IF NOT EXISTS fachbereich (
+    id              INTEGER GENERATED ALWAYS AS IDENTITY(START WITH 1000) PRIMARY KEY,
+    name            TEXT NOT NULL,
+    beschreibung    TEXT,
+    leitung         TEXT,
+    anzahlaerzte    INTEGER,
+    krankenhaus_id  INTEGER NOT NULL REFERENCES krankenhaus ON DELETE CASCADE
+)
+
+CREATE INDEX IF NOT EXISTS fachbereich_name_idx ON fachbereich(name);
+CREATE INDEX IF NOT EXISTS fachbereich_krankenhausid_idx ON fachbereich(krankenhaus_id);
