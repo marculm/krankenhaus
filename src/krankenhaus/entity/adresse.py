@@ -24,9 +24,9 @@ class Adresse(Base):
 
     ort: Mapped[str]
 
-    patient_id: Mapped[int] = mapped_column(ForeignKey("patient.id"))
+    krankenhaus_id: Mapped[int] = mapped_column(ForeignKey("krankenhaus.id"))
 
-    patient: Mapped[Patient] = relationship(  # noqa: F821 # ty: ignore[unresolved-reference] # pyright: ignore[reportUndefinedVariable]
+    krankenhaus: Mapped[Krankenhaus] = relationship(  # noqa: F821 # ty: ignore[unresolved-reference] # pyright: ignore[reportUndefinedVariable]
         back_populates="adresse"
         )
 

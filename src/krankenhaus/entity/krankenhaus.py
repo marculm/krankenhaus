@@ -67,19 +67,19 @@ class Krankenhaus(Base):
         return hash(self.id) if self.id is not None else hash(type(self))
 
     def __repr__(self) -> str:
-        """Ausgabe eines Patienten als String, ohne Joins zu verursachen."""
+        """Ausgabe eines Krankenhauses als String, ohne Joins zu verursachen."""
         return (
             f"Krankenhaus(id={self.id!r}, name={self.name!r}, "
             + f"mitarbeiteranzahl={self.mitarbeiteranzahl!r}, "
             + f"bettenanzahl={self.bettenanzahl!r}, email={self.email!r})"
         )
 
-    def set(self, patient: Self) -> None:
+    def set(self, krankenhaus: Self) -> None:
         """Setzen der Attribute, anhand eines anderen Krankenhaus-Objekts.
 
-        param patient: Krankenhaus-Objekt mit den neuen Daten
+        param krankenhaus: Krankenhaus-Objekt mit den neuen Daten
         """
-        self.name = patient.name
-        self.mitarbeiteranzahl = patient.mitarbeiteranzahl
-        self.bettenanzahl = patient.bettenanzahl
-        self.email = patient.email
+        self.name = krankenhaus.name
+        self.mitarbeiteranzahl = krankenhaus.mitarbeiteranzahl
+        self.bettenanzahl = krankenhaus.bettenanzahl
+        self.email = krankenhaus.email
