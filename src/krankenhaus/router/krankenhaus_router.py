@@ -6,14 +6,12 @@ from typing import Annotated, Any, Final
 from fastapi import APIRouter, Depends, Request, Response, status
 from fastapi.responses import JSONResponse
 
-from krankenhaus.repository import Pageable
-from krankenhaus.repository.slice import Slice
+from krankenhaus.repository import Pageable, Slice
 from krankenhaus.router.constants import ETAG, IF_NONE_MATCH, IF_NONE_MATCH_MIN_LEN
 from krankenhaus.router.dependencies import get_service
 from krankenhaus.router.page import Page
 from krankenhaus.security import Role, RolesRequired
-from krankenhaus.service.krankenhaus_dto import KrankenhausDTO
-from krankenhaus.service.krankenhaus_service import KrankenhausService
+from krankenhaus.service import KrankenhausDTO, KrankenhausService
 
 __all__: list[str] = ["krankenhaus_router"]
 
@@ -29,7 +27,7 @@ def helloworld() -> dict[str, str]:
 
 @krankenhaus_router.get(
     path="/{krankenhaus_id}",
-    dependencies=[Depends(RolesRequired([Role.ADMIN, Role.PATIENT]))],
+    dependencies=[Depends(RolesRequired([Role.ADMIN, Role.KRANKENHAUS]))],
 )
 def get_by_id(
     krankenhaus_id: int,
