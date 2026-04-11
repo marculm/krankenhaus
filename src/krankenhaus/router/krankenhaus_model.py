@@ -2,7 +2,9 @@
 from typing import Final
 
 from krankenhaus.entity import Krankenhaus
-from krankenhaus.router import AdresseModel, FachbereichModel, KrankenhausUpdateModel
+from krankenhaus.router.adressse_model import AdresseModel
+from krankenhaus.router.fachbereich_model import FachbereichModel
+from krankenhaus.router.krankenhaus_update_model import KrankenhausUpdateModel
 
 __all__: list[str] = ["KrankenhausModel"]
 
