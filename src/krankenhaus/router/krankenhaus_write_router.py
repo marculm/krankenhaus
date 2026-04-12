@@ -1,4 +1,5 @@
 """KrankenhausWriteRouter."""
+from krankenhaus.security import RolesRequired, Role
 
 from typing import Annotated, Final
 
@@ -45,7 +46,10 @@ def post(
     )
 
 
-@krankenhaus_write_router.put("/{id}")
+@krankenhaus_write_router.put(
+    "/{id}",
+    dependencies=[Depends(RolesRequired([Role.ADMIN, Role.KRANKENHAUS]))]
+)
 def put(
     krankenhaus_id: int,
     krankenhaus_update_model: KrankenhausUpdateModel,
@@ -108,7 +112,10 @@ def put(
         )
 
 
-@krankenhaus_write_router.delete("/{id}")
+@krankenhaus_write_router.delete(
+    "/{id}",
+    dependencies=[Depends(RolesRequired([Role.ADMIN, Role.KRANKENHAUS]))]
+)
 def delete_by_id(
     krankenhaus_id: int,
     service: Annotated[KrankenhausWriteService, Depends(get_write_service)]
