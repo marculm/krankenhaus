@@ -1,5 +1,4 @@
 """Write Service für das Projekt Krankenhaus."""
-
 from typing import Final
 
 from loguru import logger
@@ -12,6 +11,7 @@ from krankenhaus.service import (
     KrankenhausDTO,
     NotFoundError,
     VersionOutdatedError,
+    send_mail,
 )
 
 __all__ = ["KrankenhausWriteService"]
@@ -46,6 +46,7 @@ class KrankenhausWriteService:
             session.commit()
 
         logger.debug("krankenhaus_dto: {}", krankenhaus_dto)
+        send_mail(krankenhaus_dto)
         return krankenhaus_dto
 
     def update(

@@ -5,6 +5,7 @@ from .exceptions import EmailExistsError, NotFoundError, VersionOutdatedError
 from .krankenhaus_dto import KrankenhausDTO
 from .krankenhaus_service import KrankenhausService
 from .krankenhaus_write_service import KrankenhausWriteService
+from .mailer import send_mail
 
 __all__: list[str] = [
     "AdresseDTO",
@@ -13,5 +14,6 @@ __all__: list[str] = [
     "KrankenhausService",
     "KrankenhausWriteService",
     "NotFoundError",
-    "VersionOutdatedError"
+    "VersionOutdatedError",
+    "send_mail",
 ]
