@@ -31,6 +31,7 @@ from krankenhaus.security import AuthorizationError, LoginError
 from krankenhaus.security import router as auth_router
 from krankenhaus.service import (
     EmailExistsError,
+    ForbiddenError,
     NotFoundError,
     VersionOutdatedError,
 )
@@ -183,3 +184,14 @@ def version_outdated_error_handler(
         status_code=status.HTTP_412_PRECONDITION_FAILED,
         detail=str(err),
     )
+
+
+@app.exception_handler(ForbiddenError)
+def forbidden_error_handler(_request: Request, _err: ForbiddenError) -> Response:
+    """Errorhandler für ForbiddenError.
+
+    :param _err: ForbiddenError vom Überprüfen der erforderlichen Rollen
+    :return: Response mit Statuscode 403
+    :rtype: Response
+    """
+    return create_problem_details(status_code=status.HTTP_403_FORBIDDEN)
