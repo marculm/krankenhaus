@@ -46,3 +46,7 @@ class VersionOutdatedError(Exception):
         """
         super().__init__(f"Veraltete Version: {version}")
         self.version = version
+
+
+class ForbiddenError(Exception):
+    """Exception, falls der Zugriff auf eine Ressource verboten ist."""
