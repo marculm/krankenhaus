@@ -136,8 +136,6 @@ class KrankenhausRepository:
         count: Final = session.execute(statement).scalar()
         return count if count is not None else 0
 
-    # TODO: Johannes hier die restlichen Methoden zum Suchen ergänzen
-
     def create(self, krankenhaus: Krankenhaus, session: Session) -> Krankenhaus:
         """Ein neues Krankenhaus abspeichern.
 
