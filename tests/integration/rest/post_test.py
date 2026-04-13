@@ -1,0 +1,54 @@
+# ruff: noqa: D103, S101
+"""Tests für POST-Requests."""
+from http import HTTPStatus
+from re import search
+from typing import Final
+
+from common_test import ctx, rest_url
+from httpx import post
+from pytest import mark
+
+token: str | None
+
+
+@mark.rest
+@mark.post_request
+def test_post() -> None:
+    # arrange
+    neues_krankenhaus: Final = {
+        "name": "Testkrankenhaus",
+        "mitarbeiteranzahl": 100,
+        "bettenanzahl": 200,
+        "email": "krankenhaus@test.de",
+        "adresse": {
+            "strasse": "Teststrasse",
+            "hausnummer": "1",
+            "plz": "12345",
+            "ort": "Teststadt"
+        },
+        "fachbereiche": [
+            {
+                "name": "test",
+                "beschreibung": "Testbereich",
+                "leitung": "Dr. Test",
+                "anzahlaerzte": 100
+            }
+        ]
+    }
+    headers = {"Content-Type": "application/json"}
+
+    # act
+    response: Final = post(
+        rest_url,
+        json=neues_krankenhaus,
+        headers=headers,
+        verify=ctx
+    )
+
+    # assert
+    assert response.status_code == HTTPStatus.CREATED
+    location: Final = response.headers.get("Location")
+    assert location is not None
+    int_pattern: Final = "[1-9][0-9]*$"
+    assert search(int_pattern, location) is not None
+    assert not response.text
