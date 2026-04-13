@@ -52,3 +52,45 @@ def test_post() -> None:
     int_pattern: Final = "[1-9][0-9]*$"
     assert search(int_pattern, location) is not None
     assert not response.text
+
+
+@mark.rest
+@mark.post_request
+def test_post_invalid() -> None:
+    # arrange
+    neues_krankenhaus: Final = {
+        "name": "Kein Krankenhaus",
+        "mitarbeiteranzahl": "test",
+        "bettenanzahl": 200,
+        "email": "krankenhaus",
+        "adresse": {
+            "strasse": "Teststrasse",
+            "hausnummer": "1",
+            "plz": "123",
+            "ort": "Teststadt"
+        },
+        "fachbereiche": [
+            {
+                "name": "test",
+                "beschreibung": "Testbereich",
+                "leitung": "Dr. Test",
+                "anzahlaerzte": 100
+            }
+        ]
+    }
+    headers = {"Content-Type": "application/json"}
+
+    # act
+    response: Final = post(
+        rest_url,
+        json=neues_krankenhaus,
+        headers=headers,
+        verify=ctx
+    )
+
+    # assert
+    assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
+    body = response.text
+    assert "mitarbeiteranzahl" in body
+    assert "email" in body
+    assert "plz" in body
