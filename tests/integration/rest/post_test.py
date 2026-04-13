@@ -94,3 +94,43 @@ def test_post_invalid() -> None:
     assert "mitarbeiteranzahl" in body
     assert "email" in body
     assert "plz" in body
+
+
+@mark.rest
+@mark.post_request
+def test_post_email_exist() -> None:
+    # arrange
+    email_exists: Final = "vinzentius@krankenhaus.de"
+    neues_krankenhaus: Final = {
+        "name": "Testkrankenhaus",
+        "mitarbeiteranzahl": 100,
+        "bettenanzahl": 200,
+        "email": email_exists,
+        "adresse": {
+            "strasse": "Teststrasse",
+            "hausnummer": "1",
+            "plz": "12345",
+            "ort": "Teststadt"
+        },
+        "fachbereiche": [
+            {
+                "name": "test",
+                "beschreibung": "Testbereich",
+                "leitung": "Dr. Test",
+                "anzahlaerzte": 100
+            }
+        ]
+    }
+    headers = {"Content-Type": "application/json"}
+
+    # act
+    response: Final = post(
+        rest_url,
+        json=neues_krankenhaus,
+        headers=headers,
+        verify=ctx
+    )
+
+    # assert
+    assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
+    assert email_exists in response.text
