@@ -19,6 +19,7 @@ from krankenhaus.config.dev.db_populate_router import router as db_populate_rout
 from krankenhaus.config.dev.keycloak_populate_router import (
     router as keycloak_populate_router,
 )
+from krankenhaus.graphql_api import graphql_router
 from krankenhaus.problem_details import create_problem_details
 from krankenhaus.repository.session_factory import engine
 from krankenhaus.router import (
@@ -109,6 +110,12 @@ if dev_db_populate:
     app.include_router(db_populate_router, prefix="/dev")
 if dev_keycloak_populate:
     app.include_router(keycloak_populate_router, prefix="/dev")
+
+
+# --------------------------------------------------------------------------------------
+# G r a p h Q L
+# --------------------------------------------------------------------------------------
+app.include_router(graphql_router, prefix="/graphql")
 
 
 # --------------------------------------------------------------------------------------
