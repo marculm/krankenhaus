@@ -45,7 +45,7 @@ class KrankenhausUpdateModel(BaseModel):
         krankenhaus_dict = self.model_dump()
         krankenhaus_dict["id"] = None
         krankenhaus_dict["adresse"] = None
-        krankenhaus_dict["fachbereich"] = []
+        krankenhaus_dict["fachbereiche"] = []
         krankenhaus_dict["erzeugt"] = None
         krankenhaus_dict["aktualisiert"] = None
 

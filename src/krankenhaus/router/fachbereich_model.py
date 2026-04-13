@@ -41,7 +41,7 @@ class FachbereichModel(BaseModel):
         """
         fachbereich_dict = self.model_dump()
         fachbereich_dict["id"] = None
-        fachbereich_dict["krankenhausid"] = None
+        fachbereich_dict["krankenhaus_id"] = None
         fachbereich_dict["krankenhaus"] = None
 
         return Fachbereich(**fachbereich_dict)

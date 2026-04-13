@@ -15,7 +15,6 @@
 
 """Neuladen von Keycloak im Modus DEV."""
 
-from csv import reader
 from pathlib import Path
 from typing import Annotated, Final
 
@@ -70,31 +69,6 @@ class KeycloakPopulateService:
             logger.error(f"CSV-Datei {csv_config_path} existiert nicht")
             return
         logger.debug("CSV-Datei: {}", csv_config_path)
-
-        with csv_config_path.open(encoding=utf8) as csv_file:
-            csv_reader = reader(csv_file, delimiter=";")
-            kopfzeile = True
-            for row in csv_reader:
-                if kopfzeile:
-                    kopfzeile = False
-                    continue
-
-                username = row[11]
-                if username == "admin":
-                    continue
-
-                email = row[3]
-                nachname = row[2]
-                user = User(
-                    username=username,
-                    email=email,
-                    nachname=nachname,
-                    vorname=nachname,
-                    roles=[Role.KRANKENHAUS],
-                    password="p",  # noqa: S106 # NOSONAR
-                )
-                self.user_service.create_user(user=user)
-        logger.debug("Alle User zu 'krankenhaus.csv' neu angelegt")
 
 
 def get_keycloak_populate_service(

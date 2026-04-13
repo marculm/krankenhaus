@@ -2,17 +2,16 @@
 from typing import Final
 
 from loguru import logger
-from sqlalchemy.orm import Session
 
 from krankenhaus.entity import Krankenhaus
-from krankenhaus.repository import KrankenhausRepository
+from krankenhaus.repository import KrankenhausRepository, Session
 from krankenhaus.service import (
     EmailExistsError,
     KrankenhausDTO,
     NotFoundError,
     VersionOutdatedError,
-    send_mail,
 )
+from krankenhaus.service.mailer import send_mail
 
 __all__ = ["KrankenhausWriteService"]
 
