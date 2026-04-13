@@ -2,7 +2,7 @@
 
 from contextlib import asynccontextmanager
 from time import time
-from typing import TYPE_CHECKING, Final
+from typing import TYPE_CHECKING, Any, Final
 
 from fastapi import FastAPI, Request, Response, status
 from fastapi.middleware.gzip import GZipMiddleware
@@ -28,7 +28,7 @@ from krankenhaus.router import (
     krankenhaus_write_router,
     shutdown_router,
 )
-from krankenhaus.security import AuthorizationError, LoginError
+from krankenhaus.security import AuthorizationError, LoginError, set_response_headers
 from krankenhaus.security import router as auth_router
 from krankenhaus.service import (
     EmailExistsError,
@@ -116,6 +116,27 @@ if dev_keycloak_populate:
 # G r a p h Q L
 # --------------------------------------------------------------------------------------
 app.include_router(graphql_router, prefix="/graphql")
+
+
+# --------------------------------------------------------------------------------------
+# S e c u r i t y
+# --------------------------------------------------------------------------------------
+# https://fastapi.tiangolo.com/tutorial/middleware
+@app.middleware("http")
+async def add_security_headers(
+    request: Request,
+    call_next: Callable[[Any], Awaitable[Response]],
+) -> Response:
+    """Header-Daten beim Response für IT-Sicherheit setzen.
+
+    :param request: Injiziertes Request-Objekt, das zunächst fertig verarbeitet wird
+    :param call_next: nächste aufzurufende Middleware
+    :return: Response-Objekt mit zusätzlichen Header-Daten
+    :rtype: Response
+    """
+    response: Final[Response] = await call_next(request)
+    set_response_headers(response)
+    return response
 
 
 # --------------------------------------------------------------------------------------
