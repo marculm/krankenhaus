@@ -9,6 +9,7 @@ __all__: list[str] = ["KrankenhausDTO"]
 
 
 @dataclass(eq=False, slots=True, kw_only=True)
+@strawberry.type
 class KrankenhausDTO:
     """DTO-Klasse für Krankenhaus."""
 

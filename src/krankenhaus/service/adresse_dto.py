@@ -6,6 +6,7 @@ from krankenhaus.entity.adresse import Adresse
 
 
 @dataclass(eq=False, slots=True, kw_only=True)
+@strawberry.type
 class AdresseDTO:
     """Data Transfer Object für die Adresse."""
 
