@@ -2,6 +2,8 @@
 
 from dataclasses import dataclass
 
+import strawberry
+
 from krankenhaus.entity import Krankenhaus
 from krankenhaus.service import AdresseDTO
 
