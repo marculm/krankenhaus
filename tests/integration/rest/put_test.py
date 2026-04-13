@@ -72,3 +72,32 @@ def test_put_nicht_vorhanden() -> None:
 
     # assert
     assert response.status_code == HTTPStatus.NOT_FOUND
+
+
+@mark.rest
+@mark.put_request
+def test_put_ohne_version() -> None:
+    # arrange
+    krankenhaus_id: Final = 10
+    geaendertes_krankenhaus: Final = {
+        "name": "Testkrankenhaus",
+        "mitarbeiteranzahl": 100,
+        "bettenanzahl": 200,
+        "email": EMAIL_UPDATE
+    }
+    token: Final = login()
+    assert token is not None
+    headers = {
+        "Authorization": f"Bearer {token}",
+    }
+
+    # act
+    response: Final = put(
+        f"{rest_url}/{krankenhaus_id}",
+        json=geaendertes_krankenhaus,
+        headers=headers,
+        verify=ctx
+    )
+
+    # assert
+    assert response.status_code == HTTPStatus.PRECONDITION_REQUIRED
