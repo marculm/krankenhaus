@@ -47,7 +47,7 @@ def post(
 
 
 @krankenhaus_write_router.put(
-    "/{id}",
+    "/{krankenhaus_id}",
     dependencies=[Depends(RolesRequired([Role.ADMIN, Role.KRANKENHAUS]))]
 )
 def put(
@@ -113,7 +113,7 @@ def put(
 
 
 @krankenhaus_write_router.delete(
-    "/{id}",
+    "/{krankenhaus_id}",
     dependencies=[Depends(RolesRequired([Role.ADMIN, Role.KRANKENHAUS]))]
 )
 def delete_by_id(
