@@ -50,7 +50,7 @@ def get_by_id(
     if_none_match: Final = request.headers.get(IF_NONE_MATCH)
     if (
         if_none_match is not None
-        and len(if_none_match) > IF_NONE_MATCH_MIN_LEN
+        and len(if_none_match) >= IF_NONE_MATCH_MIN_LEN
         and if_none_match.startswith('"')
         and if_none_match.endswith('"')
     ):
