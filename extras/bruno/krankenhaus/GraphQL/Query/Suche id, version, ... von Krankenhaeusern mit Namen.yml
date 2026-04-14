@@ -1,0 +1,52 @@
+info:
+  name: Suche id, version, ... von Krankenhaeusern mit Namen
+  type: graphql
+  seq: 2
+
+graphql:
+  method: POST
+  url: "{{graphqlUrl}}"
+  headers:
+    - name: ""
+      value: ""
+      disabled: true
+  body:
+    query: |-
+      query ($name: String = "Klinik") {
+        krankenhaeuser(suchparameter: {name: $name}) {
+          id
+          version
+          name
+          mitarbeiteranzahl
+          bettenanzahl
+          email
+          adresse {
+            strasse
+            hausnummer
+            plz
+            ort
+          }
+        }
+      }
+    variables: |-
+      {
+        "name": "Klinik"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+    - expression: res.headers['content-type']
+      operator: eq
+      value: application/json
+    - expression: res.body.data.krankenhaeuser
+      operator: isArray
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
