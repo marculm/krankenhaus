@@ -34,3 +34,24 @@ def test_get_by_id(krankenhaus_id: int) -> None:
     id_actual: Final = response_body.get("id")
     assert id_actual is not None
     assert id_actual == krankenhaus_id
+
+
+@mark.rest
+@mark.get_request
+def test_get_by_id_not_found() -> None:
+    """Test für GET mit nicht vorhandener ID."""
+    # arrange
+    krankenhaus_id: Final = 999
+    token: Final = login()
+    assert token is not None
+    headers: Final = {"Authorization": f"Bearer {token}"}
+
+    # act
+    response: Final = get(
+        f"{rest_url}/{krankenhaus_id}",
+        headers=headers,
+        verify=ctx,
+    )
+
+    # assert
+    assert response.status_code == HTTPStatus.NOT_FOUND
