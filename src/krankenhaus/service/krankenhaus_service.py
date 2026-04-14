@@ -3,9 +3,8 @@ from collections.abc import Mapping, Sequence
 from typing import Final
 
 from loguru import logger
-from sqlalchemy.orm import Session
 
-from krankenhaus.repository import KrankenhausRepository
+from krankenhaus.repository import KrankenhausRepository, Session
 from krankenhaus.repository.pageable import Pageable
 from krankenhaus.repository.slice import Slice
 from krankenhaus.service import KrankenhausDTO, NotFoundError
