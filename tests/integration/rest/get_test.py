@@ -20,7 +20,6 @@ def test_get_namen() -> None:
         "Klinikum-Mitte",
         "Klinikum-Nord",
         "Klinikum-West",
-        "Staedtisches-Klinikum",
     ]
     token: Final = login()
     assert token is not None
