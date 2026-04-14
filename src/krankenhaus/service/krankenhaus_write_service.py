@@ -1,4 +1,5 @@
 """Write Service für das Projekt Krankenhaus."""
+
 from typing import Final
 
 from loguru import logger
@@ -49,8 +50,8 @@ class KrankenhausWriteService:
         return krankenhaus_dto
 
     def update(
-            self, krankenhaus: Krankenhaus, krankenhaus_id: int, version: int
-        ) -> KrankenhausDTO:
+        self, krankenhaus: Krankenhaus, krankenhaus_id: int, version: int
+    ) -> KrankenhausDTO:
         """Ein bestehendes Krankenhaus aktualisieren.
 
         :param krankenhaus_id: ID des zu aktualisierenden Krankenhauses
@@ -69,9 +70,8 @@ class KrankenhausWriteService:
                 raise VersionOutdatedError(version)
 
             email: Final = krankenhaus.email
-            if (
-                email != krankenhaus_db.email and
-                self.repo.email_exists_for_other_id(email, krankenhaus_id, session)
+            if email != krankenhaus_db.email and self.repo.email_exists_for_other_id(
+                email, krankenhaus_id, session
             ):
                 raise EmailExistsError(email)
 

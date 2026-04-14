@@ -11,5 +11,5 @@ __all__: list[str] = [
     "Pageable",
     "Session",
     "Slice",
-    "engine"
+    "engine",
 ]

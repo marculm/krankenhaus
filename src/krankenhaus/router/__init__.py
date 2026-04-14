@@ -11,11 +11,11 @@ from krankenhaus.router.krankenhaus_router import (
     krankenhaus_router,
 )
 from krankenhaus.router.krankenhaus_write_router import (
-     delete_by_id,
-     krankenhaus_write_router,
-     post,
-     put,
- )
+    delete_by_id,
+    krankenhaus_write_router,
+    post,
+    put,
+)
 from krankenhaus.router.shutdown_router import router as shutdown_router
 from krankenhaus.router.shutdown_router import shutdown
 

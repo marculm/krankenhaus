@@ -1,5 +1,6 @@
 # ruff: noqa: D103, S101
 """Tests für POST-Requests."""
+
 from http import HTTPStatus
 from re import search
 from typing import Final
@@ -24,25 +25,22 @@ def test_post() -> None:
             "strasse": "Teststrasse",
             "hausnummer": "1",
             "plz": "12345",
-            "ort": "Teststadt"
+            "ort": "Teststadt",
         },
         "fachbereiche": [
             {
                 "name": "test",
                 "beschreibung": "Testbereich",
                 "leitung": "Dr. Test",
-                "anzahlaerzte": 100
+                "anzahlaerzte": 100,
             }
-        ]
+        ],
     }
     headers = {"Content-Type": "application/json"}
 
     # act
     response: Final = post(
-        rest_url,
-        json=neues_krankenhaus,
-        headers=headers,
-        verify=ctx
+        rest_url, json=neues_krankenhaus, headers=headers, verify=ctx
     )
 
     # assert
@@ -67,25 +65,22 @@ def test_post_invalid() -> None:
             "strasse": "Teststrasse",
             "hausnummer": "1",
             "plz": "123",
-            "ort": "Teststadt"
+            "ort": "Teststadt",
         },
         "fachbereiche": [
             {
                 "name": "test",
                 "beschreibung": "Testbereich",
                 "leitung": "Dr. Test",
-                "anzahlaerzte": 100
+                "anzahlaerzte": 100,
             }
-        ]
+        ],
     }
     headers = {"Content-Type": "application/json"}
 
     # act
     response: Final = post(
-        rest_url,
-        json=neues_krankenhaus,
-        headers=headers,
-        verify=ctx
+        rest_url, json=neues_krankenhaus, headers=headers, verify=ctx
     )
 
     # assert
@@ -110,25 +105,22 @@ def test_post_email_exist() -> None:
             "strasse": "Teststrasse",
             "hausnummer": "1",
             "plz": "12345",
-            "ort": "Teststadt"
+            "ort": "Teststadt",
         },
         "fachbereiche": [
             {
                 "name": "test",
                 "beschreibung": "Testbereich",
                 "leitung": "Dr. Test",
-                "anzahlaerzte": 100
+                "anzahlaerzte": 100,
             }
-        ]
+        ],
     }
     headers = {"Content-Type": "application/json"}
 
     # act
     response: Final = post(
-        rest_url,
-        json=neues_krankenhaus,
-        headers=headers,
-        verify=ctx
+        rest_url, json=neues_krankenhaus, headers=headers, verify=ctx
     )
 
     # assert

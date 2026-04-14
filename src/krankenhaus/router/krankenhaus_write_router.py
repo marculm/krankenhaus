@@ -1,4 +1,5 @@
 """KrankenhausWriteRouter."""
+
 from typing import Annotated, Final
 
 from fastapi import APIRouter, Depends, Request, Response, status
@@ -47,13 +48,13 @@ def post(
 
 @krankenhaus_write_router.put(
     "/{krankenhaus_id}",
-    dependencies=[Depends(RolesRequired([Role.ADMIN, Role.KRANKENHAUS]))]
+    dependencies=[Depends(RolesRequired([Role.ADMIN, Role.KRANKENHAUS]))],
 )
 def put(
     krankenhaus_id: int,
     krankenhaus_update_model: KrankenhausUpdateModel,
     request: Request,
-    service: Annotated[KrankenhausWriteService, Depends(get_write_service)]
+    service: Annotated[KrankenhausWriteService, Depends(get_write_service)],
 ) -> Response:
     """Aktualisiert ein bestehendes Krankenhaus.
 
@@ -72,7 +73,7 @@ def put(
         "krankenhaus_id={}, krankenhaus_update_model={}, if_match={}",
         krankenhaus_id,
         krankenhaus_update_model,
-        if_match_value
+        if_match_value,
     )
 
     if if_match_value is None:
@@ -99,25 +100,23 @@ def put(
 
     krankenhaus: Final = krankenhaus_update_model.to_krankenhaus()
     krankenhaus_modified: Final = service.update(
-        krankenhaus_id=krankenhaus_id,
-        krankenhaus=krankenhaus,
-        version=version_int
+        krankenhaus_id=krankenhaus_id, krankenhaus=krankenhaus, version=version_int
     )
     logger.debug("krankenhaus_modified={}", krankenhaus_modified)
 
     return Response(
         status_code=status.HTTP_204_NO_CONTENT,
         headers={"ETag": f'"{krankenhaus_modified.version}"'},
-        )
+    )
 
 
 @krankenhaus_write_router.delete(
     "/{krankenhaus_id}",
-    dependencies=[Depends(RolesRequired([Role.ADMIN, Role.KRANKENHAUS]))]
+    dependencies=[Depends(RolesRequired([Role.ADMIN, Role.KRANKENHAUS]))],
 )
 def delete_by_id(
     krankenhaus_id: int,
-    service: Annotated[KrankenhausWriteService, Depends(get_write_service)]
+    service: Annotated[KrankenhausWriteService, Depends(get_write_service)],
 ) -> Response:
     """Löscht ein Krankenhaus anhand der ID.
 

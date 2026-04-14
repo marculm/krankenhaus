@@ -1,4 +1,5 @@
 """Pydantic Models für das Krankenhaus."""
+
 from typing import Final
 
 from krankenhaus.entity import Krankenhaus
@@ -29,7 +30,7 @@ class KrankenhausModel(KrankenhausUpdateModel):
         krankenhaus: Final = Krankenhaus(**krankenhaus_dict)
         krankenhaus.adresse = self.adresse.to_adresse()
         krankenhaus.fachbereiche = [
-            fachbereich_model.to_fachbereich() for
-            fachbereich_model in self.fachbereiche
+            fachbereich_model.to_fachbereich()
+            for fachbereich_model in self.fachbereiche
         ]
         return krankenhaus
