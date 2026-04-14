@@ -1,7 +1,7 @@
 info:
   name: Suche mit ID Bearer Token
   type: folder
-  seq: 2
+  seq: 1
 
 request:
   auth:
@@ -9,31 +9,7 @@ request:
     token: "{{TOKEN}}"
   variables:
     - name: TOKEN
-      value: eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJRMnNZQnpweHh1cTRMU1FESmIzZzkxcDVTZGNNQXgySG5yMWVwX3VqMGlrIn0.eyJleHAiOjE3NzYxNjI0NzksImlhdCI6MTc3NjE2MDY3OSwianRpIjoib25ydHJvOmI3MWVlMjlkLTQ0N2QtZWU5MS03NGM4LTQ0NGViZTlmZjg3NSIsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0Ojg4NDMvcmVhbG1zL3B5dGhvbiIsImF1ZCI6WyJyZWFsbS1tYW5hZ2VtZW50IiwiYWNjb3VudCJdLCJzdWIiOiIxOWYyNTk4MC1mMTM1LTRlODEtOGNjNS0zMmM5NzkxZDIxMGUiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJweXRob24tY2xpZW50Iiwic2lkIjoiVFJYamlPNk1wYnBwcm5aaFJDUW5NcnpIIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6W10sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLXB5dGhvbiIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWFsbS1tYW5hZ2VtZW50Ijp7InJvbGVzIjpbInZpZXctcmVhbG0iLCJ2aWV3LWlkZW50aXR5LXByb3ZpZGVycyIsIm1hbmFnZS1pZGVudGl0eS1wcm92aWRlcnMiLCJpbXBlcnNvbmF0aW9uIiwicmVhbG0tYWRtaW4iLCJjcmVhdGUtY2xpZW50IiwibWFuYWdlLXVzZXJzIiwicXVlcnktcmVhbG1zIiwidmlldy1hdXRob3JpemF0aW9uIiwicXVlcnktY2xpZW50cyIsInF1ZXJ5LXVzZXJzIiwibWFuYWdlLWV2ZW50cyIsIm1hbmFnZS1yZWFsbSIsInZpZXctZXZlbnRzIiwidmlldy11c2VycyIsInZpZXctY2xpZW50cyIsIm1hbmFnZS1hdXRob3JpemF0aW9uIiwibWFuYWdlLWNsaWVudHMiLCJxdWVyeS1ncm91cHMiXX0sInB5dGhvbi1jbGllbnQiOnsicm9sZXMiOlsiYWRtaW4iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwibmFtZSI6IlB5dGhvbiBBZG1pbiIsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIiwiZ2l2ZW5fbmFtZSI6IlB5dGhvbiIsImZhbWlseV9uYW1lIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQGFjbWUuY29tIn0.btJM8r35_bye4nMoZs72aJAJyvFM2RMZYweej-9fMZwjwKcsA69VF8FWU8aqmEF8290DKKx39ok7TMrTAG9McXohh3_oQKEfH1XgIppsFV29S04GhQdn_eDyYq3doDm6V9X7w-AaMyer6qhXU2mLOgDovesWr3tA18JDSuNR3g7wcLPzf0bM2wP1rEFMKPzd6OmwQxOEnTr9s1VIVVW3wFeCTeposgghEsG7ZbN9e_-RrbyGJPBDWosbwsBgAWJ8vXldcwKA5RyH6yYrLBt4N3ezJBzn-iZ_2WtAwQpTYOPyaCV9uVqtpQWvYwHwjKd8RP9hlVQasU6eRCruyAaS5w
-  scripts:
-    - type: before-request
-      code: |-
-        // "Developer Mode" statt "Safe" erforderlich
-        const https = require('node:https');
-
-        const httpsAgent = new https.Agent({
-         rejectUnauthorized: false,
-        });
-
-        const tokenUrl = bru.getCollectionVar('tokenUrl');
-        const username = bru.getEnvVar('username');
-        const password = bru.getEnvVar('password');
-
-        const response = await bru.sendRequest({
-          method: 'POST',
-          url: tokenUrl,
-          data: { username, password },
-          httpsAgent,
-        });
-
-        const { token } = response.data;
-        console.log(`token=${token}`)
-        bru.setVar('TOKEN', token);
+      value: eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZRlh1Nk1jZUowRDVVbVZnNEdZYmZqZ0pGVGx1aVNMcEdoMHd0aDAwSEZnIn0.eyJleHAiOjE3NzYxNzA4NTIsImlhdCI6MTc3NjE2OTA1MiwianRpIjoib25ydHJvOmExMGQzZTBlLWI3MTMtZTY4Ni00YWVkLWJiMWNjMGM5OTcxNiIsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0Ojg4NDMvcmVhbG1zL3B5dGhvbiIsImF1ZCI6WyJyZWFsbS1tYW5hZ2VtZW50IiwiYWNjb3VudCJdLCJzdWIiOiIxMjM3YjY1MS01ZjdjLTQzNTEtYTk0Ni04YjY0ZWM2YmU0YTIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJweXRob24tY2xpZW50Iiwic2lkIjoic3BlejNUODQtbGtRN1BmNDJtQW9aLWxnIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6W10sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLXB5dGhvbiIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWFsbS1tYW5hZ2VtZW50Ijp7InJvbGVzIjpbInZpZXctaWRlbnRpdHktcHJvdmlkZXJzIiwidmlldy1yZWFsbSIsIm1hbmFnZS1pZGVudGl0eS1wcm92aWRlcnMiLCJpbXBlcnNvbmF0aW9uIiwicmVhbG0tYWRtaW4iLCJjcmVhdGUtY2xpZW50IiwibWFuYWdlLXVzZXJzIiwicXVlcnktcmVhbG1zIiwidmlldy1hdXRob3JpemF0aW9uIiwicXVlcnktY2xpZW50cyIsInF1ZXJ5LXVzZXJzIiwibWFuYWdlLWV2ZW50cyIsIm1hbmFnZS1yZWFsbSIsInZpZXctZXZlbnRzIiwidmlldy11c2VycyIsInZpZXctY2xpZW50cyIsIm1hbmFnZS1hdXRob3JpemF0aW9uIiwibWFuYWdlLWNsaWVudHMiLCJxdWVyeS1ncm91cHMiXX0sInB5dGhvbi1jbGllbnQiOnsicm9sZXMiOlsiYWRtaW4iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJQeXRob24gQWRtaW4iLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiIsImdpdmVuX25hbWUiOiJQeXRob24iLCJmYW1pbHlfbmFtZSI6IkFkbWluIiwiZW1haWwiOiJhZG1pbkBhY21lLmNvbSJ9.UQFykBRKFyPA9Qc4o4rs0PIAeINN4rCCnAsto6fMHcFyoyXx0ENL5OGlfOz-GhsAzOfXSTkhEm6T2sjN-Enql6l_LPmziKAzgED-4CXqhPET9umtufYXqJlj_9diXITtK4_lf63je2yj0zgSSSKGJYPr8SzZjZeaTwgMn5YpWp1GUEyxXXWzsfLZpQqVtsrsSZXY9dr1eJiURRJadQeeIoWTEt-ynwqyvqe3fwlDUHy6t1gOPJ62MNJ2A9ruq9UoagURqHMdoRe7coACDDMHnN108xgA8IxN71W5zp5pAp0YwwZHYA_fkq-hhY2DrQ-IeL2i9Lx7LiVO_hzcFtaeJg
 
 docs:
   content: Suche nach Krankenhäusern über die REST-Schnittstelle anhand der ID.
