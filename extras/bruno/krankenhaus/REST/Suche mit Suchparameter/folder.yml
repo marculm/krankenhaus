@@ -1,0 +1,28 @@
+info:
+  name: Suche mit Suchparameter
+  type: folder
+  seq: 2
+
+request:
+  auth:
+    type: oauth2
+    flow: resource_owner_password_credentials
+    accessTokenUrl: "{{oidcTokenUrl}}"
+    credentials:
+      clientId: "{{client_id}}"
+      clientSecret: "{{client_secret}}"
+      placement: body
+    resourceOwner:
+      username: "{{username}}"
+      password: "{{password}}"
+    tokenConfig:
+      id: credentials
+      placement:
+        header: Bearer
+    settings:
+      autoFetchToken: true
+      autoRefreshToken: false
+
+docs:
+  content: Suche nach Krankenhäusern über die REST-Schnittstelle mit flexiblen Suchparametern.
+  type: text/markdown
