@@ -1,0 +1,51 @@
+info:
+  name: Neues Krankenhaus mit bereits existierender Email
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{restUrl}}"
+  headers:
+    - name: ""
+      value: ""
+      disabled: true
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Schwarzwald Klinik",
+          "mitarbeiteranzahl": 250,
+          "bettenanzahl": 670,
+          "email": "marien@krankenhaus.de",
+          "adresse": {
+               "strasse": "Klinikstrasse",
+            "hausnummer": "1",
+                   "plz": "79774",
+                   "ort": "Unteralpfen"
+          },
+          "fachbereiche": [
+              {
+                    "name": "Radiologie",
+            "beschreibung": "Abteilung für Chierugie",
+                 "leitung": "Dr Goette",
+            "anzahlaerzte": 120
+              }
+          ]
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "422"
+    - expression: res.body.detail
+      operator: contains
+      value: Email
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
