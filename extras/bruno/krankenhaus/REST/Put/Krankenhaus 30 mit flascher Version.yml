@@ -1,0 +1,37 @@
+info:
+  name: Krankenhaus 30 mit flascher Version
+  type: http
+  seq: 2
+
+http:
+  method: PUT
+  url: "{{restUrl}}/:id"
+  headers:
+    - name: If-Match
+      value: "0"
+  params:
+    - name: id
+      value: "30"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Braunwald Klinik",
+          "mitarbeiteranzahl": 67,
+          "bettenanzahl": 420,
+          "email": "braunwald@klinik.de"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "412"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

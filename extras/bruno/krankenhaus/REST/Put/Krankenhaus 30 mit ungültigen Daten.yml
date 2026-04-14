@@ -1,0 +1,44 @@
+info:
+  name: Krankenhaus 30 mit ungültigen Daten
+  type: http
+  seq: 5
+
+http:
+  method: PUT
+  url: "{{restUrl}}/:id"
+  headers:
+    - name: If-Match
+      value: '"0"'
+  params:
+    - name: id
+      value: "30"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+          "name": 1,
+          "mitarbeiteranzahl": "",
+          "bettenanzahl": "z",
+          "email": "braunwald@"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "422"
+    - expression: res.body.detail
+      operator: isArray
+    - expression: res.body.detail
+      operator: isNotEmpty
+    - expression: res.headers['content-type']
+      operator: eq
+      value: application/json
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

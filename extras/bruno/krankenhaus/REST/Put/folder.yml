@@ -1,0 +1,22 @@
+info:
+  name: Put
+  type: folder
+  seq: 1
+
+request:
+  auth:
+    type: oauth2
+    flow: resource_owner_password_credentials
+    accessTokenUrl: "{{oidcTokenUrl}}"
+    credentials:
+      clientId: "{{client_id}}"
+      clientSecret: "{{client_secret}}"
+      placement: body
+    resourceOwner:
+      username: "{{username}}"
+      password: "{{password}}"
+    tokenConfig:
+      id: credentials
+      placement:
+        header: Bearer
+      source: access_token
