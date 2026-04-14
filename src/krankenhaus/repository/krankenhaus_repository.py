@@ -17,7 +17,8 @@ __all__ = ["KrankenhausRepository"]
 class KrankenhausRepository:
     """Repository für das Projekt Krankenhaus."""
 
-    def find_by_id(self, krankenhaus_id: int | None, session: Session
+    def find_by_id(
+        self, krankenhaus_id: int | None, session: Session
     ) -> Krankenhaus | None:
         """Ein Krankenhaus anhand der ID suchen.
 
@@ -191,8 +192,8 @@ class KrankenhausRepository:
         return anzahl is not None and anzahl > 0
 
     def email_exists_for_other_id(
-            self, email: str, krankenhaus_id: int, session: Session
-        ) -> bool:
+        self, email: str, krankenhaus_id: int, session: Session
+    ) -> bool:
         """Prüfen, ob eine E-Mail-Adresse bereits bei einer anderen ID existiert.
 
         :param email: E-Mail-Adresse, die geprüft werden soll

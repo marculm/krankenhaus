@@ -1,4 +1,5 @@
 """Entity-Klasse für das Krankenhaus."""
+
 from datetime import datetime
 from typing import Any, Self
 

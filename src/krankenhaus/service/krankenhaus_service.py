@@ -1,4 +1,5 @@
 """Geschäftslogik zum lesen von Krnankenhausdaten."""
+
 from collections.abc import Mapping, Sequence
 from typing import Final
 
@@ -66,8 +67,7 @@ class KrankenhausService:
                 raise NotFoundError(suchparameter=suchparameter)
 
             krankenhaeuser_dto: Final = tuple(
-                KrankenhausDTO(krankenhaus)
-                for krankenhaus in krankenhaus_slice.content
+                KrankenhausDTO(krankenhaus) for krankenhaus in krankenhaus_slice.content
             )
 
         krankenhaeuser_dto_slice: Final = Slice(

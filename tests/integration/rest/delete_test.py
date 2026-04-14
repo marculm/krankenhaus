@@ -19,9 +19,7 @@ def test_delete() -> None:
 
     # act
     response: Final = delete(
-        f"{rest_url}/{krankenhaus_id}",
-        headers=headers,
-        verify=ctx
+        f"{rest_url}/{krankenhaus_id}", headers=headers, verify=ctx
     )
 
     # assert

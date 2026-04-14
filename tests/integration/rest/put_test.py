@@ -21,21 +21,18 @@ def test_put() -> None:
         "name": "Testkrankenhaus",
         "mitarbeiteranzahl": 100,
         "bettenanzahl": 200,
-        "email": EMAIL_UPDATE
+        "email": EMAIL_UPDATE,
     }
     token: Final = login()
     assert token is not None
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "If-Match": if_match
-    }
+    headers = {"Authorization": f"Bearer {token}", "If-Match": if_match}
 
     # act
     response: Final = put(
         f"{rest_url}/{krankenhaus_id}",
         json=geaendertes_krankenhaus,
         headers=headers,
-        verify=ctx
+        verify=ctx,
     )
 
     # assert
@@ -53,21 +50,18 @@ def test_put_nicht_vorhanden() -> None:
         "name": "Testkrankenhaus",
         "mitarbeiteranzahl": 100,
         "bettenanzahl": 200,
-        "email": EMAIL_UPDATE
+        "email": EMAIL_UPDATE,
     }
     token: Final = login()
     assert token is not None
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "If-Match": if_match
-    }
+    headers = {"Authorization": f"Bearer {token}", "If-Match": if_match}
 
     # act
     response: Final = put(
         f"{rest_url}/{krankenhaus_id}",
         json=geaendertes_krankenhaus,
         headers=headers,
-        verify=ctx
+        verify=ctx,
     )
 
     # assert
@@ -83,7 +77,7 @@ def test_put_ohne_version() -> None:
         "name": "Testkrankenhaus",
         "mitarbeiteranzahl": 100,
         "bettenanzahl": 200,
-        "email": EMAIL_UPDATE
+        "email": EMAIL_UPDATE,
     }
     token: Final = login()
     assert token is not None
@@ -96,7 +90,7 @@ def test_put_ohne_version() -> None:
         f"{rest_url}/{krankenhaus_id}",
         json=geaendertes_krankenhaus,
         headers=headers,
-        verify=ctx
+        verify=ctx,
     )
 
     # assert
@@ -113,21 +107,18 @@ def test_put_alte_version() -> None:
         "name": "Testkrankenhaus",
         "mitarbeiteranzahl": 100,
         "bettenanzahl": 200,
-        "email": EMAIL_UPDATE
+        "email": EMAIL_UPDATE,
     }
     token: Final = login()
     assert token is not None
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "If-Match": if_match
-    }
+    headers = {"Authorization": f"Bearer {token}", "If-Match": if_match}
 
     # act
     response: Final = put(
         f"{rest_url}/{krankenhaus_id}",
         json=geaendertes_krankenhaus,
         headers=headers,
-        verify=ctx
+        verify=ctx,
     )
 
     # assert

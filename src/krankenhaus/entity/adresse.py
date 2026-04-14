@@ -11,10 +11,7 @@ class Adresse(Base):
 
     __tablename__ = "adresse"
 
-    id: Mapped[int] = mapped_column(
-        Identity(start=1000),
-        primary_key=True
-    )
+    id: Mapped[int] = mapped_column(Identity(start=1000), primary_key=True)
 
     strasse: Mapped[str]
 
@@ -28,7 +25,7 @@ class Adresse(Base):
 
     krankenhaus: Mapped[Krankenhaus] = relationship(  # noqa: F821 # ty: ignore[unresolved-reference] # pyright: ignore[reportUndefinedVariable]
         back_populates="adresse"
-        )
+    )
 
     def __repr__(self) -> str:
         """Adresse als String ausgeben."""
