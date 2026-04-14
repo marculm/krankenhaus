@@ -1,6 +1,4 @@
 """KrankenhausWriteRouter."""
-from krankenhaus.security import RolesRequired, Role
-
 from typing import Annotated, Final
 
 from fastapi import APIRouter, Depends, Request, Response, status
@@ -11,6 +9,7 @@ from krankenhaus.router.constants import IF_MATCH_MIN_LEN
 from krankenhaus.router.dependencies import get_write_service
 from krankenhaus.router.krankenhaus_model import KrankenhausModel
 from krankenhaus.router.krankenhaus_update_model import KrankenhausUpdateModel
+from krankenhaus.security import Role, RolesRequired
 from krankenhaus.service import KrankenhausWriteService
 
 __all__ = ["krankenhaus_write_router"]

@@ -16,7 +16,7 @@
 
 """Fixture für pytest: Neuladen der Datenbank."""
 
-from common_test import check_readiness, db_populate, keycloak_populate
+from common_test import check_readiness, db_populate
 from pytest import fixture
 
 # "Fixtures" sind Funktionen, die vor den Test-Funktionen ausgefuehrt werden, um z.B.

@@ -24,9 +24,8 @@ from loguru import logger
 
 from krankenhaus.config import csv_config
 from krankenhaus.config.dev_modus import dev_keycloak_populate
-from krankenhaus.security import User, UserService
+from krankenhaus.security import UserService
 from krankenhaus.security.dependencies import get_user_service
-from krankenhaus.security.role import Role
 
 __all__ = [
     "KeycloakPopulateService",
