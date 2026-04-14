@@ -1,0 +1,55 @@
+info:
+  name: Neues Krankenhaus
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{restUrl}}"
+  headers:
+    - name: ""
+      value: ""
+      disabled: true
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Schwarzwald Klinik",
+          "mitarbeiteranzahl": 250,
+          "bettenanzahl": 670,
+          "email": "schwarzwald@klinik.de",
+          "adresse": {
+               "strasse": "Klinikstrasse",
+            "hausnummer": "1",
+                   "plz": "79774",
+                   "ort": "Unteralpfen"
+          },
+          "fachbereiche": [
+              {
+                    "name": "Radiologie",
+            "beschreibung": "Abteilung für Chierugie",
+                 "leitung": "Dr Goette",
+            "anzahlaerzte": 120
+              }
+          ]
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+    - expression: res.headers.location
+      operator: matches
+      value: \/rest\/[1-9]\d*$
+    - expression: res.body
+      operator: isString
+    - expression: res.body
+      operator: isEmpty
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

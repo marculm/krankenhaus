@@ -1,0 +1,52 @@
+info:
+  name: Neues Krankenhaus mit ungültigen Daten
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{restUrl}}"
+  headers:
+    - name: ""
+      value: ""
+      disabled: true
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Falsche Klinik",
+          "mitarbeiteranzahl": 0,
+          "bettenanzahl": "",
+          "email": "schwarzwald@",
+          "adresse": {
+               "strasse": "Klinikstrasse",
+            "hausnummer": "1",
+                   "plz": "12",
+                   "ort": "Unteralpfen"
+          },
+          "fachbereiche": [
+              {
+                    "name": "Radiologie",
+            "beschreibung": "Abteilung für Chierugie",
+                 "leitung": "Dr Goette",
+            "anzahlaerzte": 30
+              }
+          ]
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "422"
+    - expression: res.body.detail
+      operator: isArray
+    - expression: res.body.detail
+      operator: isNotEmpty
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
